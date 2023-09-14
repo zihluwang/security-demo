@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .sessionManagement((customizer) -> customizer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((customizer) -> customizer
-                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .build();
     }
