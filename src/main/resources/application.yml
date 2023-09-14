@@ -9,7 +9,7 @@ logging:
     console: '%clr(%d{${LOG_DATEFORMAT_PATTERN:dd/MMM/yyyy HH:mm:ss}}){faint} %clr(${LOG_LEVEL_PATTERN:%-5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
     file: '%d{${LOG_DATEFORMAT_PATTERN:dd/MMM/yyyy HH:mm:ss}} ${LOG_LEVEL_PATTERN:%-5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
 #  level:
-#    cn.org.codecrafters: debu
+#    cn.org.codecrafters: debug
 
 mybatis-flex:
   type-aliases-package: wang.zihlu.security.model.proto
