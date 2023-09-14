@@ -64,12 +64,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .cors((customizer) -> customizer
+                .cors((customiser) -> customiser
                         .configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement((customizer) -> customizer
+                .sessionManagement((customiser) -> customiser
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((customizer) -> customizer
+                .authorizeHttpRequests((customiser) -> customiser
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/auth/logout").authenticated()
                         .anyRequest().authenticated())
