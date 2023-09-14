@@ -14,22 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-
 package wang.zihlu.security.constant;
 
 /**
- * ResponseHeaders
+ * BizErrorCode
  *
  * @author Zihlu Wang
- * @since 12 Sept, 2023
+ * @since 14 Sept, 2023
  */
-public final class ResponseHeaders {
+public final class BizErrorCode {
+    // region Errors related to accounts(starts from 1000).
+    public static final Long INCORRECT_USERNAME_OR_PASSWORD = 1000L;
+    public static final Long MISSING_TOKEN = 1001L;
+    // endregion
 
-    private ResponseHeaders() {
-    }
-
-    public static final String BIZ_ERROR = "X-Biz-Error";
-
-    public static final String BIZ_ERROR_CODE = "X-Biz-Error-Code";
-
+    // region Errors related to server status
+    public static final Long SERVER_ERROR = 9000L;
+    // endregion
 }

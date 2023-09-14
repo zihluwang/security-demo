@@ -22,6 +22,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,6 +33,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import wang.zihlu.security.constant.BizErrorCode;
 import wang.zihlu.security.constant.CommonHeaders;
+import wang.zihlu.security.context.CurrentUserContext;
 import wang.zihlu.security.exception.ServerErrorException;
 import wang.zihlu.security.model.proto.User;
 import wang.zihlu.security.model.vo.UserVo;
@@ -48,6 +50,7 @@ import java.util.Optional;
  * @author Zihlu Wang
  * @since 14 Sept, 2023
  */
+@Slf4j
 public class WebTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenResolver<?> tokenResolver;
@@ -62,12 +65,14 @@ public class WebTokenAuthenticationFilter extends OncePerRequestFilter {
         // if the token is not in the request header, just let this request pass is fine.
         if (!Strings.hasText(token)) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         try {
             var user = tokenResolver.extract(token, User.class);
             SecurityContextHolder.getContext().setAuthentication(
                     UsernamePasswordAuthenticationToken.authenticated(user, null, user.getAuthorities()));
+            CurrentUserContext.setCurrentUser(user);
             filterChain.doFilter(request, response);
         } catch (Exception ex) {
             throw new ServerErrorException(BizErrorCode.SERVER_ERROR, "Unable to load user data.");

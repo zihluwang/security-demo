@@ -17,3 +17,8 @@ Content-Type: application/json; charset=UTF-8
   "username": "zihluwang",
   "password": "460215SxkDEC"
 }
+
+### Me
+GET /users/me
+Host: {{host}}
+X-Auth-Key: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJDb2RlQ3JhZnRlcnMub3JnLmNuIiwiaWF0IjoxNjk0NjgwODgxLCJuYmYiOjE2OTQ2ODA4ODEsImF1ZCI6InppaGx1d2FuZyIsInN1YiI6IlNlY3VyaXR5IERlbW8gQXBwbGljYXRpb24iLCJleHAiOjE2OTQ2OTE2ODEsImp0aSI6ImVlNzU0ZmRjLTI1OTMtNGJlMi1iZDFhLTg3YzczZTIzNTQ5ZiIsImlkIjoxMTUxODA2OTE5MDMyMTc2NjQwLCJ1c2VybmFtZSI6InppaGx1d2FuZyIsImVtYWlsIjoicmVhbGx5QHppaGx1LndhbmcifQ.GHjF5bWeouU9ZcNcoz1-F4cbKLfyl9PWiQfxOar1IKjhcD8NdBTuFZw5OHv8DXWPZyvBXg-964n5T-nndzjdrw

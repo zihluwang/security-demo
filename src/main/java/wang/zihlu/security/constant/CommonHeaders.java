@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-
 package wang.zihlu.security.constant;
 
 /**
@@ -24,10 +23,5 @@ package wang.zihlu.security.constant;
  * @since 12 Sept, 2023
  */
 public final class CommonHeaders {
-
-    private CommonHeaders() {
-    }
-
     public static final String AUTH_KEY = "X-Auth-Key";
-
 }

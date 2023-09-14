@@ -15,18 +15,30 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wang.zihlu.security.constant;
+package wang.zihlu.security.context;
+
+import wang.zihlu.security.model.proto.User;
 
 /**
- * CommonValues
+ * CurrentUserContext
  *
  * @author Zihlu Wang
- * @since 12 Sept, 2023
+ * @since 14 Sept, 2023
  */
-public final class CommonValues {
+public final class CurrentUserContext {
 
-    private CommonValues() {
+    private static ThreadLocal<User> currentUser = new ThreadLocal<>();
+
+    public static User getCurrentUser() {
+        return currentUser.get();
     }
 
-    public static final String JSON_WITH_CHARSET = "application/json; charset=UTF-8";
+    public static void setCurrentUser(User user) {
+        currentUser.set(user);
+    }
+
+    public static void clearCurrentUser() {
+        currentUser.remove();
+    }
+
 }
