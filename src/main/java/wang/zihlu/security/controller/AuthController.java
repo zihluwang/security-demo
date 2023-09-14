@@ -21,12 +21,11 @@ import cn.org.codecrafters.simplejwt.TokenResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 import wang.zihlu.security.constant.CommonHeaders;
 import wang.zihlu.security.constant.ResponseHeaders;
+import wang.zihlu.security.context.CurrentUserContext;
 import wang.zihlu.security.mapper.UserMapper;
 import wang.zihlu.security.model.request.LoginRequest;
 import wang.zihlu.security.model.vo.UserVo;
@@ -66,6 +65,16 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header(CommonHeaders.AUTH_KEY, token)
                 .body(userMapper.transform(user));
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        CurrentUserContext.clearCurrentUser();
+        SecurityContextHolder.clearContext();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(CommonHeaders.AUTH_KEY, "User Logged Out")
+                .build();
     }
 
 }

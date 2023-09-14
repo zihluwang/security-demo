@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((customizer) -> customizer
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/logout").authenticated()
                         .anyRequest().authenticated())
                 .addFilterBefore(webTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
