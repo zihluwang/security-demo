@@ -18,6 +18,7 @@
 package wang.zihlu.security.model.proto;
 
 import cn.org.codecrafters.simplejwt.TokenPayload;
+import cn.org.codecrafters.simplejwt.annotations.ExcludeFromPayload;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -44,13 +45,14 @@ import java.util.Objects;
 @AllArgsConstructor
 @Accessors(chain = true)
 @Table("user")
-public class User implements UserDetails {
+public class User implements UserDetails, TokenPayload {
 
     @Id(keyType = KeyType.None)
     private Long id;
 
     private String username;
 
+    @ExcludeFromPayload
     private String password;
 
     private String email;

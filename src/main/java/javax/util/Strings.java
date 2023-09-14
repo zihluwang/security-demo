@@ -15,17 +15,31 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wang.zihlu.security.model.vo;
-
-import cn.org.codecrafters.simplejwt.TokenPayload;
+package javax.util;
 
 /**
- * UserVo
+ * Strings
  *
  * @author Zihlu Wang
  * @since 14 Sept, 2023
  */
-public record UserVo(Long id,
-                     String username,
-                     String email) {
+public final class Strings {
+
+    private Strings() {
+    }
+
+    public static boolean hasText(String str) {
+        return (str != null && !str.isEmpty() && containsText(str));
+    }
+
+    private static boolean containsText(CharSequence str) {
+        int strLen = str.length();
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

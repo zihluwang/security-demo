@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import wang.zihlu.security.constant.CommonHeaders;
 import wang.zihlu.security.constant.ResponseHeaders;
 import wang.zihlu.security.mapper.UserMapper;
 import wang.zihlu.security.model.request.LoginRequest;
@@ -58,13 +59,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<UserVo> login(@RequestBody LoginRequest loginRequest) {
-        var user = userMapper.transform(userService.login(loginRequest.username(), loginRequest.password()));
+        var user = userService.login(loginRequest.username(), loginRequest.password());
         var token = tokenResolver.createToken(Duration.ofHours(3),
-                user.username(), "Security Demo Application", user);
+                user.getUsername(), "Security Demo Application", user);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .header(ResponseHeaders.AUTH_KEY, token)
-                .body(user);
+                .header(CommonHeaders.AUTH_KEY, token)
+                .body(userMapper.transform(user));
     }
 
 }

@@ -28,4 +28,6 @@ public final class CommonHeaders {
     private CommonHeaders() {
     }
 
+    public static final String AUTH_KEY = "X-Auth-Key";
+
 }
