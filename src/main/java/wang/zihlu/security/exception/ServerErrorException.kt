@@ -15,25 +15,21 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wang.zihlu.security.config;
+package wang.zihlu.security.exception
 
-import cn.org.codecrafters.guid.GuidCreator;
-import cn.org.codecrafters.guid.SnowflakeGuidCreator;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import wang.zihlu.security.constant.ResponseHeaders
 
-/**
- * GuidConfig
- *
- * @author Zihlu Wang
- * @since 14 Sept, 2023
- */
-@Configuration
-public class GuidConfig {
+class ServerErrorException(bizErrorCode: Long, message: String) : BaseException(bizErrorCode, message) {
 
-    @Bean(name = "userIdCreator")
-    public GuidCreator<Long> userIdCreator() {
-        return new SnowflakeGuidCreator(0x0, 0x0);
+    private val status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+
+    override fun composeResponseEntity(): ResponseEntity<Void> {
+        return ResponseEntity.status(status)
+                .header(ResponseHeaders.BIZ_ERROR, message)
+                .header(ResponseHeaders.BIZ_ERROR_CODE, bizErrorCode.toString())
+                .body(null)
     }
 
 }

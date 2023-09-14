@@ -23,14 +23,22 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import wang.zihlu.security.constant.BizErrorCode;
 import wang.zihlu.security.constant.CommonHeaders;
+import wang.zihlu.security.exception.ServerErrorException;
+import wang.zihlu.security.model.proto.User;
 import wang.zihlu.security.model.vo.UserVo;
 
 import javax.util.Strings;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,12 +48,10 @@ import java.util.Optional;
  * @author Zihlu Wang
  * @since 14 Sept, 2023
  */
-@Component
 public class WebTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenResolver<?> tokenResolver;
 
-    @Autowired
     public WebTokenAuthenticationFilter(TokenResolver<?> tokenResolver) {
         this.tokenResolver = tokenResolver;
     }
@@ -53,11 +59,19 @@ public class WebTokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = request.getHeader(CommonHeaders.AUTH_KEY);
+        // if the token is not in the request header, just let this request pass is fine.
         if (!Strings.hasText(token)) {
             filterChain.doFilter(request, response);
         }
 
-        filterChain.doFilter(request, response);
+        try {
+            var user = tokenResolver.extract(token, User.class);
+            SecurityContextHolder.getContext().setAuthentication(
+                    UsernamePasswordAuthenticationToken.authenticated(user, null, user.getAuthorities()));
+            filterChain.doFilter(request, response);
+        } catch (Exception ex) {
+            throw new ServerErrorException(BizErrorCode.SERVER_ERROR, "Unable to load user data.");
+        }
     }
 
 }

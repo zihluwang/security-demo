@@ -12,12 +12,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 package wang.zihlu.security.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.org.codecrafters.simplejwt.TokenResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
+import wang.zihlu.security.filter.WebTokenAuthenticationFilter;
 
 /**
  * SecurityConfig
@@ -44,12 +46,19 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @AutoConfigureAfter(CorsConfig.class)
 public class SecurityConfig {
 
-
     private final CorsConfigurationSource corsConfigurationSource;
 
+    private final TokenResolver<?> tokenResolver;
+
     @Autowired
-    public SecurityConfig(CorsConfigurationSource corsConfigurationSource) {
+    public SecurityConfig(CorsConfigurationSource corsConfigurationSource, TokenResolver<?> tokenResolver) {
         this.corsConfigurationSource = corsConfigurationSource;
+        this.tokenResolver = tokenResolver;
+    }
+
+    @Bean
+    public WebTokenAuthenticationFilter webTokenAuthenticationFilter() {
+        return new WebTokenAuthenticationFilter(tokenResolver);
     }
 
     @Bean
@@ -63,6 +72,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((customizer) -> customizer
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
+                .addFilterBefore(webTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

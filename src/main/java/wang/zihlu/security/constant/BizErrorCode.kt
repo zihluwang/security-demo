@@ -12,10 +12,9 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-
-package wang.zihlu.security.constant;
+package wang.zihlu.security.constant
 
 /**
  * BizErrorCode
@@ -23,14 +22,13 @@ package wang.zihlu.security.constant;
  * @author Zihlu Wang
  * @since 14 Sept, 2023
  */
-public final class BizErrorCode {
-
-    private BizErrorCode() {
-    }
-
+object BizErrorCode {
     // region Errors related to accounts(starts from 1000).
-    public static final Long INCORRECT_USERNAME_OR_PASSWORD = 1000L;
-
+    const val INCORRECT_USERNAME_OR_PASSWORD = 1000L
+    const val MISSING_TOKEN = 1001L
     // endregion
 
+    // region Errors related to server status
+    const val SERVER_ERROR = 9000L
+    // endregion
 }
