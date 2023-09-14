@@ -26,6 +26,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import wang.zihlu.security.constant.BizErrorCode;
 import wang.zihlu.security.exception.IncorrectCredentialException;
+import wang.zihlu.security.mapper.UserMapper;
 import wang.zihlu.security.model.proto.User;
 import wang.zihlu.security.repository.UserRepository;
 import wang.zihlu.security.service.UserService;

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wang.zihlu.security.constant.ResponseHeaders;
+import wang.zihlu.security.mapper.UserMapper;
 import wang.zihlu.security.model.request.LoginRequest;
 import wang.zihlu.security.model.vo.UserVo;
 import wang.zihlu.security.service.UserService;
@@ -46,22 +47,24 @@ public class AuthController {
 
     private final TokenResolver<?> tokenResolver;
 
+    private final UserMapper userMapper;
+
     @Autowired
-    public AuthController(UserService userService, TokenResolver<?> tokenResolver) {
+    public AuthController(UserService userService, TokenResolver<?> tokenResolver, UserMapper userMapper) {
         this.userService = userService;
         this.tokenResolver = tokenResolver;
+        this.userMapper = userMapper;
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserVo> login(@RequestBody LoginRequest loginRequest) {
-        var loggedUser = userService.login(loginRequest.username(), loginRequest.password());
-        var loggedUserVo = new UserVo(loggedUser.getId(), loggedUser.getUsername(), loggedUser.getEmail());
+        var user = userMapper.transform(userService.login(loginRequest.username(), loginRequest.password()));
         var token = tokenResolver.createToken(Duration.ofHours(3),
-                loggedUserVo.username(), "Security Demo Application", loggedUserVo);
+                user.username(), "Security Demo Application", user);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(ResponseHeaders.AUTH_KEY, token)
-                .body(loggedUserVo);
+                .body(user);
     }
 
 }
