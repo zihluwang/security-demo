@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: pg:1SIHl8iIx/MvepoooXt6xlYgP+4dSNtc2ApXS6s+G4pu6nSltnHuxvidUtFwBOTm4jLIYPPT2YKme+/EMzi+agvL9IiwwFrfFddZOAEBjkOIS6i2B+lPI0VIM4uuensDPV9E8PdQZpjzD+8xVfy8KuiiPcdPzmlS34jmkTdsVPJff736GwzFCwApUUlv6yXJ
+    username: pg:ggsVNcb9HmbMIqiFLFt9fg==
+    password: pg:++VE7cul7eT9eSEyiUjtQmCEoKYYdykLDtPKDT2pug4=
+
+logging:
+  pattern:
+    console: '%clr(%d{${LOG_DATEFORMAT_PATTERN:dd/MMM/yyyy HH:mm:ss}}){faint} %clr(${LOG_LEVEL_PATTERN:%-5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    file: '%d{${LOG_DATEFORMAT_PATTERN:dd/MMM/yyyy HH:mm:ss}} ${LOG_LEVEL_PATTERN:%-5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+#  level:
+#    cn.org.codecrafters: debu
+
+mybatis-flex:
+  type-aliases-package: wang.zihlu.security.model.proto
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+code-crafters:
+  simple-jwt:
+    algorithm: hs512
+    issuer: CodeCrafters.org.cn
+    secret: pg:lUsEzXpb4rB2nQzZLT5LKZJ/I68evkkCxF54EgTewjAOqE6tRd2uO9AwD5POFZ7NgjNmpqBcRYOHNr8aLasnM3ACWuwZXrME05LG2YdABBU=
+
+app:
+  cors:
+    allowed-origins: '*'
+    allowed-headers:
+      - Content-Type
+      - X-Auth-Key
+    allow-credentials: true
+    exposed-headers:
+      - Content-Type
+      - X-Auth-Key

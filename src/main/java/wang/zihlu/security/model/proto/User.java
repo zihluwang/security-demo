@@ -1,0 +1,88 @@
+package wang.zihlu.security.model.proto;
+
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * User
+ *
+ * @author Zihlu Wang
+ * @since 13 Sept, 2023
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+@Table("user")
+public class User implements UserDetails {
+
+    @Id(keyType = KeyType.None)
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    private String email;
+
+    private List<GrantedAuthority> authorities;
+
+    @Override
+    public List<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public User addAuthority(GrantedAuthority authority) {
+        if (Objects.isNull(this.authorities)) {
+            this.authorities = new ArrayList<>();
+        }
+        this.authorities.add(authority);
+        return this;
+    }
+
+    public User addRole(String role) {
+        return addAuthority(new SimpleGrantedAuthority(role));
+    }
+}
