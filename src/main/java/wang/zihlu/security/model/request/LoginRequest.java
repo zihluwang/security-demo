@@ -12,24 +12,16 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wang.zihlu.security.service;
-
-import com.mybatisflex.core.service.IService;
-import org.springframework.stereotype.Service;
-import wang.zihlu.security.model.proto.User;
+package wang.zihlu.security.model.request;
 
 /**
- * UserService
+ * LoginRequest
  *
  * @author Zihlu Wang
- * @since 13 Sept, 2023
+ * @since 14 Sept, 2023
  */
-@Service
-public interface UserService extends IService<User> {
-
-    User login(String username, String password);
-
+public record LoginRequest(String username, String password) {
 }

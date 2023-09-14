@@ -17,6 +17,7 @@
 
 package wang.zihlu.security.model.proto;
 
+import cn.org.codecrafters.simplejwt.TokenPayload;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -54,11 +55,9 @@ public class User implements UserDetails {
 
     private String email;
 
-    private List<GrantedAuthority> authorities;
-
     @Override
     public List<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     @Override
@@ -91,15 +90,15 @@ public class User implements UserDetails {
         return true;
     }
 
-    public User addAuthority(GrantedAuthority authority) {
-        if (Objects.isNull(this.authorities)) {
-            this.authorities = new ArrayList<>();
-        }
-        this.authorities.add(authority);
-        return this;
-    }
+    // public User addAuthority(GrantedAuthority authority) {
+    //     if (Objects.isNull(this.authorities)) {
+    //         this.authorities = new ArrayList<>();
+    //     }
+    //     this.authorities.add(authority);
+    //     return this;
+    // }
 
-    public User addRole(String role) {
-        return addAuthority(new SimpleGrantedAuthority(role));
-    }
+    // public User addRole(String role) {
+    //     return addAuthority(new SimpleGrantedAuthority(role));
+    // }
 }

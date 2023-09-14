@@ -12,37 +12,34 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 package wang.zihlu.security.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import wang.zihlu.security.constant.ResponseHeaders;
 
 /**
- * BadRequestException
+ * IncorrectUsernameOrPasswordException
  *
  * @author Zihlu Wang
- * @since 13 Sept, 2023
+ * @since 14 Sept, 2023
  */
-@Getter
-public class BadRequestException extends BaseException {
+public class IncorrectCredentialException extends BaseException {
 
     private final HttpStatus status = HttpStatus.UNAUTHORIZED;
 
-    public BadRequestException(Long bizErrorCode, String message) {
+    public IncorrectCredentialException(Long bizErrorCode, String message) {
         super(bizErrorCode, message);
     }
 
     @Override
     public ResponseEntity<Void> composeResponseEntity() {
         return ResponseEntity.status(status)
-                .header(ResponseHeaders.BIZ_ERROR, getMessage())
-                .header(ResponseHeaders.BIZ_ERROR_CODE, String.valueOf(getBizErrorCode()))
+                .header(ResponseHeaders.BIZ_ERROR, this.getMessage())
+                .header(ResponseHeaders.BIZ_ERROR_CODE, String.valueOf(this.getBizErrorCode()))
                 .body(null);
     }
-
 }

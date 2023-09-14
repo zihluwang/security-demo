@@ -22,12 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import wang.zihlu.security.constant.BizErrorCode;
 import wang.zihlu.security.constant.ResponseHeaders;
-import wang.zihlu.security.exception.BadRequestException;
+import wang.zihlu.security.exception.BaseException;
 
 /**
  * ExceptionController
@@ -39,8 +37,8 @@ import wang.zihlu.security.exception.BadRequestException;
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<?> handle(BadRequestException exception) {
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<?> handle(BaseException exception) {
         return exception.composeResponseEntity();
     }
 

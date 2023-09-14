@@ -12,24 +12,20 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wang.zihlu.security.service;
+package wang.zihlu.security.model.vo;
 
-import com.mybatisflex.core.service.IService;
-import org.springframework.stereotype.Service;
-import wang.zihlu.security.model.proto.User;
+import cn.org.codecrafters.simplejwt.TokenPayload;
 
 /**
- * UserService
+ * UserVo
  *
  * @author Zihlu Wang
- * @since 13 Sept, 2023
+ * @since 14 Sept, 2023
  */
-@Service
-public interface UserService extends IService<User> {
-
-    User login(String username, String password);
-
+public record UserVo(Long id,
+                     String username,
+                     String email) implements TokenPayload {
 }

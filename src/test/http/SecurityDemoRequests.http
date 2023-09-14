@@ -1,0 +1,19 @@
+### Login Request (correct username and password pair)
+POST /auth/login
+Host: 127.0.0.1:8080
+Content-Type: application/json; charset=UTF-8
+
+{
+  "username": "zihluwang",
+  "password": "460215SxkDECN"
+}
+
+### Login Request (incorrect username and password pair)
+POST /auth/login
+Host: 127.0.0.1:8080
+Content-Type: application/json; charset=UTF-8
+
+{
+  "username": "zihluwang",
+  "password": "460215SxkDEC"
+}

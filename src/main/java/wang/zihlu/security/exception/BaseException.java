@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see https://www.gnu.org/licenses/.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 package wang.zihlu.security.exception;
@@ -23,25 +23,27 @@ import org.springframework.http.ResponseEntity;
 import wang.zihlu.security.constant.ResponseHeaders;
 
 /**
- * BadRequestException
+ * BaseRequestException
  *
  * @author Zihlu Wang
- * @since 13 Sept, 2023
+ * @since 14 Sept, 2023
  */
-@Getter
-public class BadRequestException extends BaseException {
+public class BaseException extends RuntimeException {
 
-    private final HttpStatus status = HttpStatus.UNAUTHORIZED;
+    @Getter
+    private final Long bizErrorCode;
 
-    public BadRequestException(Long bizErrorCode, String message) {
-        super(bizErrorCode, message);
+    private final HttpStatus status = HttpStatus.BAD_REQUEST;
+
+    public BaseException(Long bizErrorCode, String message) {
+        super(message);
+        this.bizErrorCode = bizErrorCode;
     }
 
-    @Override
     public ResponseEntity<Void> composeResponseEntity() {
         return ResponseEntity.status(status)
                 .header(ResponseHeaders.BIZ_ERROR, getMessage())
-                .header(ResponseHeaders.BIZ_ERROR_CODE, String.valueOf(getBizErrorCode()))
+                .header(ResponseHeaders.BIZ_ERROR_CODE, String.valueOf(bizErrorCode))
                 .body(null);
     }
 
